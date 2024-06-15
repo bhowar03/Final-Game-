@@ -82,11 +82,8 @@ int main(void)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			render = true;
-			if (keys[UP] && keys[RIGHT] && player.ClimableCollision()) { //Climp up right
+			if (keys[UP]) { //Climp up right
 				player.UpdateSprites(WIDTH, HEIGHT, 3);
-			}
-			else if (keys[UP] && keys[LEFT] && player.ClimableCollision()) { //Climp up left
-				player.UpdateSprites(WIDTH, HEIGHT, 4);
 			}
 			else if (keys[DOWN]) {
 				player.UpdateSprites(WIDTH, HEIGHT, 5);
@@ -140,7 +137,8 @@ int main(void)
 				break;
 			case ALLEGRO_KEY_SPACE:
 				keys[SPACE] = true;
-				jump = 30;
+				
+
 
 			}
 		}
@@ -192,7 +190,7 @@ int main(void)
 
 			//draw foreground tiles
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
-			jump = player.jumping(jump, JUMPIT);
+			
 			player.DrawSprites(xOff, yOff);
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -226,30 +224,4 @@ bool endValue(int x, int y)
 	}
 	else
 		return false;
-}
-// Checks if climable
-bool Climbable(int x, int y)
-{
-	BLKSTR* blockData;
-	blockData = MapGetBlock(x / mapblockwidth, y / mapblockheight);
-
-	if (blockData->tl && blockData->tr && blockData->bl && blockData->br && blockData->user1 == 2) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-// Checks if you can go through
-bool Throughable(int x, int y)
-{
-	BLKSTR* FloorData;
-	FloorData = MapGetBlock(x / mapblockwidth, y / mapblockheight);
-
-	if (FloorData->user1 == 3) {
-		return true;
-	}
-	else {
-		return false;
-	}
 }

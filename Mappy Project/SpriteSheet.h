@@ -9,9 +9,7 @@ using namespace std;
 class Sprite
 {
 	friend int collided(int x, int y);
-	friend bool endValue( int x, int y );
-	friend bool Climbable(int x, int y);
-	friend bool Throughable(int x, int y);
+	friend bool endValue(int x, int y);
 public:
 	Sprite();
 	~Sprite();
@@ -23,10 +21,9 @@ public:
 	float getY() {return y;}
 	int getWidth() {return frameWidth;}
 	int getHeight() {return frameHeight;}
-	int jumping(int jump, const int JUMPIT);
+
 	bool CollisionEndBlock();
-	bool ClimableCollision();
-	bool ThroughableCollision();
+	
 
 private:
 	float x;
@@ -42,7 +39,7 @@ private:
 	int animationDirection;
 	// Added
 	int maxWalkFrame;
-	int maxJumpFrame;
-	bool isJumping;
+	
+	
 	ALLEGRO_BITMAP *image;
 };

@@ -109,8 +109,8 @@ int main(void)
 			if (ev.timer.source == timerFinal) { // Timer to see if the game should end, runs out game ends
 				remainingTime--;
 				if (remainingTime <= 0) {
-					al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Out of Time!");
-					al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "Game Over!");
+					al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Out of Time!");
+					al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "Game Over!");
 					al_flip_display();
 					al_rest(10.0);
 					done = true;
@@ -130,7 +130,7 @@ int main(void)
 
 			// Ends game, Game over screen and timer dispaly
 			if (player.endGame()) {
-				al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congrats!");
+				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congrats!");
 				al_flip_display();
 				al_rest(10.0);
 				break;
@@ -218,7 +218,7 @@ int main(void)
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 			player.DrawSprites(xOff, yOff);
 			// Print remaining time to screen
-			char timeLeft[50];
+			char timeLeft[30];
 			sprintf(timeLeft, "Remaining time: %i", remainingTime);
 			al_draw_textf(font, al_map_rgb(255, 255, 255), 5, 5, 0, timeLeft);
 			

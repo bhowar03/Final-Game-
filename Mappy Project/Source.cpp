@@ -218,7 +218,7 @@ bool endValue(int x, int y)
 	BLKSTR* data;
 	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
 
-	if (data->user1 == 8)
+	if (data->user1 == 5)
 	{
 		return true;
 	}

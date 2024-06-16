@@ -91,7 +91,7 @@ int main(void)
 		{
 			render = true;
 			if (keys[UP]) { 
-				player.UpdateSprites(WIDTH, HEIGHT, 32);
+				player.UpdateSprites(WIDTH, HEIGHT, 3);
 			}
 			else if (keys[DOWN]) {
 				player.UpdateSprites(WIDTH, HEIGHT, 0);
@@ -217,7 +217,9 @@ int main(void)
 			//draw foreground tiles
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 			player.DrawSprites(xOff, yOff);
-
+			char timeLeft[50];
+			sprintf(timeLeft, "Remaining time: %i", remainingTime);
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 5, 5, 0, timeLeft);
 			
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));

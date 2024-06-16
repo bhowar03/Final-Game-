@@ -1,4 +1,4 @@
-// Brandon Howar Lab 11
+// Brandon Howar Project 4
 #include "SpriteSheet.h"
 
 Sprite::Sprite()
@@ -22,7 +22,7 @@ void Sprite::InitSprites(int width, int height)
 	maxFrame = 16;
 	curFrame = 0;
 	frameCount = 0;
-	frameDelay = 10;
+	frameDelay = 5;
 	frameWidth = 64;
 	frameHeight = 64;
 	animationColumns = 4;
@@ -54,13 +54,14 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		if (++frameCount > frameDelay)
 		{
 			frameCount = 0;
-			if (++curFrame > maxLeft && animationDirection == 0)
+			if (++curFrame > maxLeft)
 				curFrame = 4;
 		}
 	}
 	else if (dir == 3) { //Up key
 		animationDirection = 2;
 		y -= 2;
+		
 		if (++frameCount > frameDelay)
 		{
 			frameCount = 0;
@@ -145,10 +146,10 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 {
 	int fx = (curFrame % animationColumns) * frameWidth;
 	int fy = (curFrame / animationColumns) * frameHeight;
-	//if (walking) {
-	//	// Draw Walking
-	//	al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
-	//}
+	if (walking) {
+		// Draw Walking
+		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+	}
 	if (animationDirection == 1) {
 		// Draw walking right sprite
 		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);

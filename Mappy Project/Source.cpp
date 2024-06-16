@@ -1,4 +1,4 @@
-// Brandon Howar Lab 11
+// Brandon Howar Project 4
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>

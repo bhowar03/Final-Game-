@@ -1,4 +1,4 @@
-// Brandon Howar Lab 11
+// Brandon Howar Project 4
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -16,7 +16,6 @@ public:
 	void InitSprites(int width, int height);
 	void UpdateSprites(int width, int height, int dir); //dir 1 = right, 0 = left, 2 = Standing Still
 	void DrawSprites(int xoffset, int yoffset);
-	bool CollideSprite();
 	float getX() {return x;}
 	float getY() {return y;}
 	int getWidth() {return frameWidth;}

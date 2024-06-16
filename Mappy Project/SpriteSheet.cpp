@@ -15,8 +15,11 @@ void Sprite::InitSprites(int width, int height)
 	y = -10;
 
 	// Variables for ease
-	maxWalkFrame = 8;
-	maxFrame = 12;
+	maxDown = 4;
+	maxUp = 8;
+	maxLeft = 12;
+	maxRight = 16;
+	maxFrame = 16;
 	curFrame = 0;
 	frameCount = 0;
 	frameDelay = 6;
@@ -41,18 +44,44 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		{
 			frameCount = 0;
 			if (++curFrame > maxWalkFrame)
-				curFrame = 2; // Start Walking
+				curFrame = 13; // Start Walking
 		}
 	}
-	else if (dir == 0) { //left key
+	else if (dir == 2) { //left key
 		animationDirection = 0;
 		x -= 2;
 		if (++frameCount > frameDelay)
 		{
 			frameCount = 0;
 			if (++curFrame > maxWalkFrame)
-				curFrame = 2;
+				curFrame = 9;
 		}
+	}
+	else if (dir == 3) { //Up key
+		animationDirection = 1;
+		y -= 2;
+		if (++frameCount > frameDelay)
+		{
+			frameCount = 0;
+			if (++curFrame > maxWalkFrame)
+				curFrame = 5;
+		}
+	}
+	else if (dir == 4) { //Down key
+		animationDirection = 0;
+		y += 2;
+		if (++frameCount > frameDelay)
+		{
+			frameCount = 0;
+			if (++curFrame > maxWalkFrame)
+				curFrame = 1;
+		}
+	}
+	else {
+		if (walking) {
+			curFrame = 0;
+		}
+		walking = false;
 	}
 	
 
@@ -95,6 +124,10 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 {
 	int fx = (curFrame % animationColumns) * frameWidth;
 	int fy = (curFrame / animationColumns) * frameHeight;
+	if (walking) {
+		// Draw Walking
+		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+	}
 	if (animationDirection == 1) {
 		// Draw walking right sprite
 		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);

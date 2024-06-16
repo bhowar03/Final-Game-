@@ -55,7 +55,7 @@ int main(void)
 
 	int xOff = 0;
 	int yOff = 0;
-	if (MapLoad("sample.fmp", 1))
+	if (MapLoad("level1.fmp", 1))
 		return -5;
 
 	event_queue = al_create_event_queue();
@@ -82,21 +82,21 @@ int main(void)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			render = true;
-			if (keys[UP]) { //Climp up right
+			if (keys[UP]) { 
 				player.UpdateSprites(WIDTH, HEIGHT, 3);
 			}
 			else if (keys[DOWN]) {
-				player.UpdateSprites(WIDTH, HEIGHT, 5);
+				player.UpdateSprites(WIDTH, HEIGHT, 4);
 			}
 			else if (keys[LEFT]) {
-				player.UpdateSprites(WIDTH, HEIGHT, 0);
+				player.UpdateSprites(WIDTH, HEIGHT, 2);
 			}
 
 			else if (keys[RIGHT]) {
 				player.UpdateSprites(WIDTH, HEIGHT, 1);
 			}
 			else {
-				player.UpdateSprites(WIDTH, HEIGHT, 2);
+				player.UpdateSprites(WIDTH, HEIGHT, 5);
 			}
 			// Ends game, Game over screen and timer dispaly
 			if (player.CollisionEndBlock()) {

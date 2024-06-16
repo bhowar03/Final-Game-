@@ -29,6 +29,7 @@ private:
 	float x;
 	float y;
 	int maxFrame;
+	int maxUp, maxRight, maxDown, maxLeft;
 	int curFrame;
 	int frameCount;
 	int frameDelay;
@@ -39,6 +40,7 @@ private:
 	int animationDirection;
 	// Added
 	int maxWalkFrame;
+	bool walking;
 	
 	
 	ALLEGRO_BITMAP *image;

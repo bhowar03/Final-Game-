@@ -86,14 +86,14 @@ int main(void)
 				player.UpdateSprites(WIDTH, HEIGHT, 3);
 			}
 			else if (keys[DOWN]) {
-				player.UpdateSprites(WIDTH, HEIGHT, 4);
+				player.UpdateSprites(WIDTH, HEIGHT, 0);
 			}
 			else if (keys[LEFT]) {
-				player.UpdateSprites(WIDTH, HEIGHT, 2);
+				player.UpdateSprites(WIDTH, HEIGHT, 1);
 			}
 
 			else if (keys[RIGHT]) {
-				player.UpdateSprites(WIDTH, HEIGHT, 1);
+				player.UpdateSprites(WIDTH, HEIGHT, 2);
 			}
 			else {
 				player.UpdateSprites(WIDTH, HEIGHT, 5);

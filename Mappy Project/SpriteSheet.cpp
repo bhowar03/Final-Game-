@@ -37,92 +37,81 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 {
 	int oldx = x;
 	int oldy = y;
-	walking = true;
-	if (dir == 1) { //right key
-		animationDirection = 1;
-		x += 2;
-		if (++frameCount > frameDelay)
-		{
-			frameCount = 0;
-			if (++curFrame > maxRight)
-				curFrame = 8; // Start Walking
+	
+	if (dir != animationDirection) {
+		switch (dir) {
+		case 0: 
+			curFrame = 1; // Down
+			break;
+		case 1: 
+			curFrame = 4; // left
+			break;
+		case 2:
+			curFrame = 8; // Right
+			break;
+		case 3:
+			curFrame = 12; // Up
+			break;
 		}
+		animationDirection = dir;
 	}
-	else if (dir == 2) { //left key
-		animationDirection = 0;
-		x -= 2;
-		if (++frameCount > frameDelay)
-		{
-			frameCount = 0;
-			if (++curFrame > maxLeft)
+	if (++frameCount > frameDelay) {
+		frameCount = 0;
+		switch (dir) {
+		case 0:
+			if (curFrame < maxDown) {
+				curFrame++;
+			}
+			else {
+				curFrame = 1;
+			}
+			break;
+		case 1:
+			if (curFrame < maxLeft) {
+				curFrame++;
+			}
+			else {
 				curFrame = 4;
-		}
-	}
-	else if (dir == 3) { //Up key
-		animationDirection = 2;
-		y -= 2;
-		
-		if (++frameCount > frameDelay)
-		{
-			frameCount = 0;
-			if (++curFrame > maxUp)
+			}
+			break;
+		case 2:
+			if (curFrame < maxRight) {
+				curFrame++;
+			}
+			else {
+				curFrame = 8;
+			}
+			break;
+		case 3:
+			if (curFrame < maxUp) {
+				curFrame++;
+			}
+			else {
 				curFrame = 12;
+			}
+			break;
 		}
 	}
-	else if (dir == 4) { //Down key
-		animationDirection = 3;
+	switch (dir) {
+	case 0:
 		y += 2;
-		if (++frameCount > frameDelay)
-		{
-			frameCount = 0;
-			if (++curFrame > maxDown)
-				curFrame = 0;
-		}
-	}
-	else {
-		walking = false;
-		if (walking == false) {
-			if (animationDirection == 1)
-				curFrame = 8; // Stand still facing right
-			else if (animationDirection == 0)
-				curFrame = 4; // Stand still facing left
-			else if (animationDirection == 2)
-				curFrame = 12; // Stand still facing up
-			else if (animationDirection == 3)
-				curFrame = 0; // Stand still facing down
-		}
+		break;
+	case 1:
+		x -= 2;
+		break;
+	case 2:
+		x += 2;
+		break;
+	case 3:
+		y -= 2;
+		break;
 	}
 	
+	if (collided(x, y) || collided(x + frameWidth, y) || collided(x, y + frameHeight) || collided(x + frameWidth, y + frameHeight)) {
+		x = oldx;
+		y = oldy;
+	}
 
-	//check for collided with foreground tiles
-	if (animationDirection == 0)
-	{
-		if (collided(x, y + frameHeight)) { // Collision detection to the left
-			x = oldx;
-			y = oldy;
-		}
-	}
-	else if (animationDirection == 1)
-	{
-		if (collided(x + frameWidth, y + frameHeight)) { // Collision detection to the right
-			x = oldx;
-			y = oldy;
-		}
-	}
-	else if (animationDirection == 2)
-	{
-		if (collided(x + frameWidth, y + frameHeight)) { // Collision detection upwards
-			x = oldx;
-			y = oldy;
-		}
-	}
-	else if (animationDirection == 3)
-	{
-		if (collided(x + frameWidth, y + frameHeight)) { // Collision detection downwards
-			x = oldx;
-			y = oldy;
-		}
-	}
 	// ceiling
 	if (y < 32) {
 		y = 33;
@@ -146,15 +135,12 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 {
 	int fx = (curFrame % animationColumns) * frameWidth;
 	int fy = (curFrame / animationColumns) * frameHeight;
-	if (walking) {
-		// Draw Walking
-		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
-	}
-	if (animationDirection == 1) {
+	
+	if (animationDirection == 0) {
 		// Draw walking right sprite
 		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
-	else if (animationDirection == 0) {
+	else if (animationDirection == 1) {
 		// Draw walking left sprite
 		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}

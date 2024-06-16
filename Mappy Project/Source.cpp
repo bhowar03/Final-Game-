@@ -11,7 +11,8 @@
 using namespace std;
 
 int collided(int x, int y);  //Tile Collision
-bool endValue(int x, int y); //End Block with the User Value = 8
+bool endValue(int x, int y); //End Block with the User Value = 5
+bool endGameValue(int x, int y); // value 7
 int main(void)
 {
 	const int WIDTH = 900;
@@ -25,6 +26,7 @@ int main(void)
 	Sprite player;
 	const int JUMPIT = 1600;
 	int jump = JUMPIT;
+	int remainingTime = 60;
 
 
 
@@ -32,6 +34,8 @@ int main(void)
 	ALLEGRO_DISPLAY* display = NULL;
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer;
+	ALLEGRO_TIMER* timerFinal; // Timer
+
 	ALLEGRO_FONT* font = NULL;
 
 	//program init
@@ -39,6 +43,7 @@ int main(void)
 		return -1;
 
 	display = al_create_display(WIDTH, HEIGHT);			//create our display object
+	timerFinal = al_create_timer(1.0);
 
 	if (!display)										//test display object
 		return -1;
@@ -63,7 +68,9 @@ int main(void)
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
+	al_register_event_source(event_queue, al_get_timer_event_source(timerFinal));
 
+	al_start_timer(timerFinal);
 	al_start_timer(timer);
 	//draw the background tiles
 	MapDrawBG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1);
@@ -74,7 +81,8 @@ int main(void)
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	// Timer 
-	double start_time = al_get_time();
+	//double start_time = al_get_time();
+	int level = 1;
 	while (!done)
 	{
 		ALLEGRO_EVENT ev;
@@ -98,13 +106,31 @@ int main(void)
 			else {
 				player.UpdateSprites(WIDTH, HEIGHT, 5);
 			}
-			// Ends game, Game over screen and timer dispaly
-			if (player.CollisionEndBlock()) {
-				double end_time = al_get_time();
-				double elapsed_time = end_time - start_time;
-				al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Game Over!");
-				al_draw_textf(font, al_map_rgb(255, 0, 255), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "Time: %.2f seconds", elapsed_time);
+			if (ev.timer.source == timerFinal) {
+				remainingTime--;
+				if (remainingTime <= 0) {
+					al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Out of Time!");
+					al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "Game Over!");
+					al_flip_display();
+					al_rest(10.0);
+					done = true;
+				}
+			}
+			if (player.endLevel()) {
+				level++;
+				char file[20];
+				player.DrawSprites(0, 0);
+				sprintf(file, "level%i.FMP", level);
+				MapLoad(file, 1);
+				player.setX(80);
+				player.setY(-10);
+				remainingTime = 60;
+			}
 
+
+			// Ends game, Game over screen and timer dispaly
+			if (player.endGame()) {
+				al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congrats!");
 				al_flip_display();
 				al_rest(10.0);
 				break;
@@ -190,16 +216,21 @@ int main(void)
 
 			//draw foreground tiles
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
-			
 			player.DrawSprites(xOff, yOff);
+
+			char timeLeft[50];
+			sprintf(timeLeft, "Remaining time: %i", remainingTime);
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 5, 5, 0, timeLeft);
+
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
 	MapFreeMem();
+	al_destroy_font(font);
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
-
+	al_destroy_timer(timerFinal);
 	return 0;
 }
 
@@ -212,13 +243,26 @@ int collided(int x, int y)
 	return blockdata->tl;
 }
 
-bool endValue(int x, int y)
+bool endValue(int x, int y) // end game
 {
 
 	BLKSTR* data;
 	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
 
 	if (data->user1 == 5)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+bool endGameValue(int x, int y)
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 7)
 	{
 		return true;
 	}

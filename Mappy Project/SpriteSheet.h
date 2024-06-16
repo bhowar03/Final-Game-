@@ -10,6 +10,7 @@ class Sprite
 {
 	friend int collided(int x, int y);
 	friend bool endValue(int x, int y);
+	friend bool endGameValue(int x, int y);
 public:
 	Sprite();
 	~Sprite();
@@ -18,10 +19,13 @@ public:
 	void DrawSprites(int xoffset, int yoffset);
 	float getX() {return x;}
 	float getY() {return y;}
+
+	void setX(int x); // Setters
+	void setY(int y);
 	int getWidth() {return frameWidth;}
 	int getHeight() {return frameHeight;}
-
-	bool CollisionEndBlock();
+	bool endLevel();
+	bool endGame();
 	
 
 private:

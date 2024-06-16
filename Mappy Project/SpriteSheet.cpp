@@ -122,9 +122,16 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	}
 }
 
-bool Sprite::CollisionEndBlock() // end of level
+bool Sprite::endLevel() // end of level
 {
-	if (endValue(x + frameWidth/2, y + frameHeight + 5))
+	if (endGameValue(x + frameWidth/2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
+bool Sprite::endGame() // end of level
+{
+	if (endValue(x + frameWidth / 2, y + frameHeight + 5))
 		return true;
 	else
 		return false;
@@ -158,3 +165,9 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 	}
 }
 
+void Sprite::setX(int x) {
+	this->x = x;
+}
+void Sprite::setY(int y) {
+	this->y = y;
+}

@@ -107,7 +107,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		break;
 	}
 	
-	if (collided(x, y) || collided(x + frameWidth, y) || collided(x, y + frameHeight) || collided(x + frameWidth, y + frameHeight)) {
+	if (collided(x, y) || collided(x + frameWidth, y) || collided(x, y + frameHeight) || collided(x + frameWidth, y + frameHeight)) { // collides
 		x = oldx;
 		y = oldy;
 	}
@@ -124,7 +124,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 
 bool Sprite::endLevel() // end of level
 {
-	if (endGameValue(x + frameWidth/2, y + frameHeight + 5))
+	if (endLevelValue(x + frameWidth/2, y + frameHeight + 5))
 		return true;
 	else
 		return false;
@@ -164,7 +164,7 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 		al_draw_bitmap_region(image, 0, 0, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 }
-
+// Setters
 void Sprite::setX(int x) {
 	this->x = x;
 }

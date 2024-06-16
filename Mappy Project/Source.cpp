@@ -12,7 +12,7 @@ using namespace std;
 
 int collided(int x, int y);  //Tile Collision
 bool endValue(int x, int y); //End Block with the User Value = 5
-bool endGameValue(int x, int y); // value 7
+bool endLevelvalue(int x, int y); // value 7
 int main(void)
 {
 	const int WIDTH = 900;
@@ -90,21 +90,21 @@ int main(void)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			render = true;
-			if (keys[UP]) { 
+			if (keys[UP]) {  // Up Direction 3
 				player.UpdateSprites(WIDTH, HEIGHT, 3);
 			}
-			else if (keys[DOWN]) {
+			else if (keys[DOWN]) { // Down Direction 0
 				player.UpdateSprites(WIDTH, HEIGHT, 0);
 			}
-			else if (keys[LEFT]) {
+			else if (keys[LEFT]) { // Left direction1
 				player.UpdateSprites(WIDTH, HEIGHT, 1);
 			}
 
-			else if (keys[RIGHT]) {
+			else if (keys[RIGHT]) { // Right Direction 2
 				player.UpdateSprites(WIDTH, HEIGHT, 2);
 			}
 			else {
-				player.UpdateSprites(WIDTH, HEIGHT, 5);
+				player.UpdateSprites(WIDTH, HEIGHT, 5); // Other directions
 			}
 			if (ev.timer.source == timerFinal) { // Timer to see if the game should end, runs out game ends
 				remainingTime--;
@@ -217,6 +217,7 @@ int main(void)
 			//draw foreground tiles
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 			player.DrawSprites(xOff, yOff);
+			// Print remaining time to screen
 			char timeLeft[50];
 			sprintf(timeLeft, "Remaining time: %i", remainingTime);
 			al_draw_textf(font, al_map_rgb(255, 255, 255), 5, 5, 0, timeLeft);
@@ -255,7 +256,7 @@ bool endValue(int x, int y) // end game
 	else
 		return false;
 }
-bool endGameValue(int x, int y)
+bool endLevelValue(int x, int y) // end level
 {
 
 	BLKSTR* data;

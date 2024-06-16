@@ -17,7 +17,7 @@ void Sprite::InitSprites(int width, int height)
 	// Variables for ease
 	maxDown = 3;
 	maxUp = 15;
-	maxLeft = 7;
+	maxLeft = 5;
 	maxRight = 11;
 	maxFrame = 16;
 	curFrame = 0;
@@ -96,7 +96,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	case 0:
 		y += 2; // Down
 		break;
-	case 1:
+	case 4:
 		x -= 2; // left
 		break;
 	case 2:
@@ -155,7 +155,7 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 		// Draw walking Up sprite
 		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
-	else if (animationDirection == 3) {
+	else if (animationDirection == 1) {
 		// Draw walking Down sprite
 		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}

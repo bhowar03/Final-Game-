@@ -91,7 +91,7 @@ int main(void)
 		{
 			render = true;
 			if (keys[UP]) { 
-				player.UpdateSprites(WIDTH, HEIGHT, 3);
+				player.UpdateSprites(WIDTH, HEIGHT, 32);
 			}
 			else if (keys[DOWN]) {
 				player.UpdateSprites(WIDTH, HEIGHT, 0);
@@ -106,7 +106,7 @@ int main(void)
 			else {
 				player.UpdateSprites(WIDTH, HEIGHT, 5);
 			}
-			if (ev.timer.source == timerFinal) {
+			if (ev.timer.source == timerFinal) { // Timer to see if the game should end, runs out game ends
 				remainingTime--;
 				if (remainingTime <= 0) {
 					al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Out of Time!");
@@ -116,7 +116,7 @@ int main(void)
 					done = true;
 				}
 			}
-			if (player.endLevel()) {
+			if (player.endLevel()) { // When hits end of level swaps to the next one, similar to the kirby files/alien ones using sprintf
 				level++;
 				char file[20];
 				player.DrawSprites(0, 0);
@@ -218,10 +218,7 @@ int main(void)
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 			player.DrawSprites(xOff, yOff);
 
-			char timeLeft[50];
-			sprintf(timeLeft, "Remaining time: %i", remainingTime);
-			al_draw_textf(font, al_map_rgb(255, 255, 255), 5, 5, 0, timeLeft);
-
+			
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}

@@ -63,7 +63,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 1;
+				curFrame = 1; // first frame of down
 			}
 			break;
 		case 1:
@@ -71,7 +71,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 4;
+				curFrame = 4; // first of left
 			}
 			break;
 		case 2:
@@ -79,7 +79,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 8;
+				curFrame = 8; // first of right
 			}
 			break;
 		case 3:
@@ -87,23 +87,23 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 12;
+				curFrame = 12; // first of up
 			}
 			break;
 		}
 	}
 	switch (dir) {
 	case 0:
-		y += 2;
+		y += 2; // Down
 		break;
 	case 1:
-		x -= 2;
+		x -= 2; // left
 		break;
 	case 2:
-		x += 2;
+		x += 2; // right
 		break;
 	case 3:
-		y -= 2;
+		y -= 2; // UP
 		break;
 	}
 	
@@ -122,7 +122,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	}
 }
 
-bool Sprite::CollisionEndBlock()
+bool Sprite::CollisionEndBlock() // end of level
 {
 	if (endValue(x + frameWidth/2, y + frameHeight + 5))
 		return true;

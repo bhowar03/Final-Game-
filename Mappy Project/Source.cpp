@@ -188,6 +188,7 @@ int main(void)
 			al_destroy_display(display);
 			runScroller();
 		}
+		al_draw_bitmap(background, 0, 0, 0);
 		
 	}
 	

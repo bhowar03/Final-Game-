@@ -7,13 +7,195 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <iostream>
+#include "iceberg.h"
+#include "penguins.h"
+#include "snowballs.h"
+#include "cannon.h"
 
 using namespace std;
 
 int collided(int x, int y);  //Tile Collision
 bool endValue(int x, int y); //End Block with the User Value = 5
 bool endLevelvalue(int x, int y); // value 7
+int runScroller(void);
+
 int main(void)
+{
+	//Initial Variables
+	const int WIDTH = 720;
+	const int HEIGHT = 850;
+	const int NUM_snowballs = 5;
+	const int NUM_penguins = 10;
+	enum KEYS { LEFT, RIGHT, SPACE };
+	bool keys[3] = { false, false, false };
+
+	bool done = false;
+	bool redraw = true;
+	const int FPS = 60;
+
+	//Initialization Functions
+	if (!al_init())
+		return -1;
+
+	//Allegro variables
+	ALLEGRO_DISPLAY* display = NULL;
+	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
+	ALLEGRO_TIMER* timer = NULL;
+	ALLEGRO_FONT* font = NULL;
+	ALLEGRO_BITMAP* background = NULL;
+
+	//Allegro Initilization
+	al_install_keyboard();
+	al_init_image_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
+
+	// Background/display/font
+	display = al_create_display(WIDTH, HEIGHT);
+	background = al_load_bitmap("background.png");
+	font = al_load_ttf_font("arial.ttf", 32, 0);
+
+	if (!display) {
+		return 'hi';
+	}
+
+	if (!font) {
+		cout << "Could not load 'arial.ttf'";
+		return -1;
+	}
+
+	if (!al_install_mouse()) {
+		cout << "could not load mouse";
+		return -1;
+	}
+
+	if (!background) {
+		cout << "could not load background!";
+		return -1;
+	}
+	//Object variables
+	Iceberg myIceberg(HEIGHT, WIDTH);
+	Cannon myCannon(HEIGHT, WIDTH);
+	Snowball mySnowball[NUM_snowballs];
+	Penguin myPenguins[NUM_penguins];
+
+
+	event_queue = al_create_event_queue();
+	timer = al_create_timer(1.0 / FPS);
+
+	srand(time(NULL));
+
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
+	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_start_timer(timer);
+
+	while (!done)
+	{
+		// Score and Remaining Health
+		al_draw_textf(font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, "Health: %d   Score: %d", myIceberg.getLives(), myIceberg.getScore());
+
+
+		ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev);
+
+		//Main Logic Usage
+		if (ev.type == ALLEGRO_EVENT_TIMER)
+		{
+			redraw = true;
+			// Moves left or right based on keys
+			if (keys[LEFT])
+				myCannon.MoveLeft();
+			if (keys[RIGHT])
+				myCannon.MoveRight();
+			// Spawns penguins, moves penguins down screen, checks for collides etc.
+			for (int i = 0; i < NUM_snowballs; i++)
+				mySnowball[i].UpdateSnowball(WIDTH);
+			for (int i = 0; i < NUM_penguins; i++)
+				myPenguins[i].StartPenguin(WIDTH, HEIGHT);
+			for (int i = 0; i < NUM_penguins; i++)
+				myPenguins[i].UpdatePenguin();
+			for (int i = 0; i < NUM_snowballs; i++)
+				mySnowball[i].CollideSnowball(myPenguins, NUM_penguins, myIceberg);
+			for (int i = 0; i < NUM_penguins; i++)
+				myPenguins[i].CollidePenguin(myIceberg);
+
+		}
+		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+		{
+			done = true;
+		}
+		else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			switch (ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_ESCAPE:
+				done = true;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = true;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = true;
+				break;
+			case ALLEGRO_KEY_SPACE:
+				keys[SPACE] = true;
+				// Fires snowball if space is pressed
+				for (int i = 0; i < NUM_snowballs; i++)
+					mySnowball[i].FireSnowball(myCannon);
+				break;
+			}
+		}
+		else if (ev.type == ALLEGRO_EVENT_KEY_UP)
+		{
+			switch (ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_ESCAPE:
+				done = true;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = false;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = false;
+				break;
+			case ALLEGRO_KEY_SPACE:
+				keys[SPACE] = false;
+				break;
+			}
+		}
+
+		if (redraw && al_is_event_queue_empty(event_queue))
+		{
+			redraw = false;
+			// Draws cannon/iceberg
+			myIceberg.DrawIceberg();
+			myCannon.DrawCannon();
+			for (int i = 0; i < NUM_snowballs; i++)
+				mySnowball[i].DrawSnowball();
+			for (int i = 0; i < NUM_penguins; i++)
+				myPenguins[i].DrawPenguin();
+
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+		}
+		// Game over Screen
+		if (myIceberg.getLives() <= 0) {
+			al_destroy_bitmap(background);
+			al_destroy_font(font);
+			al_destroy_event_queue(event_queue);
+			al_destroy_timer(timer);
+			al_destroy_display(display);
+			runScroller();
+		}
+		
+	}
+	
+	return 0;
+}
+
+
+int runScroller(void)
 {
 	const int WIDTH = 900;
 	const int HEIGHT = 480;

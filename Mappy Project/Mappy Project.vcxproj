@@ -88,12 +88,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cannon.cpp" />
+    <ClCompile Include="iceberg.cpp" />
     <ClCompile Include="mappy_A5.c" />
+    <ClCompile Include="penguins.cpp" />
+    <ClCompile Include="snowballs.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cannon.h" />
+    <ClInclude Include="iceberg.h" />
     <ClInclude Include="mappy_A5.h" />
+    <ClInclude Include="penguins.h" />
+    <ClInclude Include="snowballs.h" />
     <ClInclude Include="SpriteSheet.h" />
   </ItemGroup>
   <ItemGroup>

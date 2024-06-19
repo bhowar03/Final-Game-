@@ -102,6 +102,11 @@ int main(void)
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_start_timer(timer);
+	// Intro
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Left and Right Arrow Keys to Aim, Space to shoot.");
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "Eliminate 25 Penguins Before Out of Life");
+	al_flip_display();
+	al_rest(5.0);
 
 	while (!done)
 	{
@@ -194,7 +199,7 @@ int main(void)
 		}
 		// Game over Screen
 		if (myIceberg.getScore() >= 25) {
-			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congratulations! Reached: %d", myIceberg.getScore());
+			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congratulations! Reached: %d Points", myIceberg.getScore());
 			al_flip_display();
 			al_rest(5.0);
 			al_destroy_bitmap(background);
@@ -296,6 +301,11 @@ int runScroller(void)
 	// Timer 
 	//double start_time = al_get_time();
 	int level = 1;
+
+	// Intro
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Collect all the Icecubes (From bottom or Top) Arrow Keys to move");
+	al_flip_display();
+	al_rest(10.0);
 	while (!done)
 	{
 		ALLEGRO_EVENT ev;

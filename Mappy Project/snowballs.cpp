@@ -6,6 +6,8 @@
 #include "iceberg.h"
 #include "cannon.h"
 #include <cmath>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 #define M_PI 3.1415926
 

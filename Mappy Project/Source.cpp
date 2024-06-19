@@ -11,6 +11,8 @@
 #include "penguins.h"
 #include "snowballs.h"
 #include "cannon.h"
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 using namespace std;
 
@@ -49,6 +51,8 @@ int main(void)
 	al_init_image_addon();
 	al_init_font_addon();
 	al_init_ttf_addon();
+	al_init_acodec_addon();
+	al_install_audio();
 
 	// Background/display/font
 	display = al_create_display(WIDTH, HEIGHT);
@@ -64,6 +68,7 @@ int main(void)
 		return -1;
 	}
 
+	
 	if (!al_install_mouse()) {
 		cout << "could not load mouse";
 		return -1;

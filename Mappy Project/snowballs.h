@@ -1,6 +1,8 @@
 // Brandon Howar Project 3
 #include "penguins.h"
 #include "cannon.h"
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 class Snowball
 {

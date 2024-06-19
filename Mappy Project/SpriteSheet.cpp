@@ -15,22 +15,22 @@ void Sprite::InitSprites(int width, int height)
 	y = -10;
 
 	// Variables for ease
-	maxDown = 3;
-	maxUp = 15;
-	maxLeft = 7;
-	maxRight = 11;
-	maxFrame = 16;
+	maxDown = 2;
+	maxUp = 5;
+	maxLeft = 11;
+	maxRight = 8;
+	maxFrame = 12;
 	curFrame = 0;
 	frameCount = 0;
 	frameDelay = 5;
-	frameWidth = 64;
-	frameHeight = 64;
-	animationColumns = 4;
+	frameWidth = 43;
+	frameHeight = 43;
+	animationColumns = 6;
 	animationDirection = 3;
 	walking = false;
 
-	image = al_load_bitmap("spritesheet2.png");
-	//al_convert_mask_to_alpha(image, al_map_rgb(255,0,255));
+	image = al_load_bitmap("penguinsheet.png");
+	al_convert_mask_to_alpha(image, al_map_rgb(0,0,255));
 }
 
 void Sprite::UpdateSprites(int width, int height, int dir)
@@ -41,16 +41,16 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	if (dir != animationDirection) {
 		switch (dir) {
 		case 0: 
-			curFrame = 1; // Down
+			curFrame = 0; // Down
 			break;
 		case 1: 
-			curFrame = 4; // left
+			curFrame = 9; // left
 			break;
 		case 2:
-			curFrame = 8; // Right
+			curFrame = 6; // Right
 			break;
 		case 3:
-			curFrame = 12; // Up
+			curFrame = 3; // Up
 			break;
 		}
 		animationDirection = dir;
@@ -63,7 +63,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 1; // first frame of down
+				curFrame = 0; // first frame of down
 			}
 			break;
 		case 1:
@@ -71,7 +71,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 4; // first of left
+				curFrame = 9; // first of left
 			}
 			break;
 		case 2:
@@ -79,7 +79,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 8; // first of right
+				curFrame = 6; // first of right
 			}
 			break;
 		case 3:
@@ -87,7 +87,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 				curFrame++;
 			}
 			else {
-				curFrame = 12; // first of up
+				curFrame = 3; // first of up
 			}
 			break;
 		}

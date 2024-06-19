@@ -136,6 +136,42 @@ bool Sprite::endGame() // end of level
 	else
 		return false;
 }
+bool Sprite::point1() // end of level
+{
+	if (points1(x + frameWidth / 2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
+bool Sprite::point2() // end of level
+{
+	if (points2(x + frameWidth / 2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
+bool Sprite::point3() // end of level
+{
+	if (points3(x + frameWidth / 2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
+bool Sprite::point4() // end of level
+{
+	if (points4(x + frameWidth / 2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
+bool Sprite::point5() // end of level
+{
+	if (points5(x + frameWidth / 2, y + frameHeight + 5))
+		return true;
+	else
+		return false;
+}
+
 
 
 void Sprite::DrawSprites(int xoffset, int yoffset)

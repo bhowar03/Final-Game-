@@ -19,6 +19,14 @@ using namespace std;
 int collided(int x, int y);  //Tile Collision
 bool endValue(int x, int y); //End Block with the User Value = 5
 bool endLevelvalue(int x, int y); // value 7
+bool points1(int x, int y);
+bool points2(int x, int y);
+bool points3(int x, int y);
+bool points4(int x, int y);
+bool points5(int x, int y);
+
+
+
 int runScroller(void);
 
 int main(void)
@@ -185,6 +193,16 @@ int main(void)
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 		// Game over Screen
+		if (myIceberg.getScore() >= 25) {
+			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congratulations! Reached: %d", myIceberg.getScore());
+			al_flip_display();
+			al_rest(5.0);
+			al_destroy_bitmap(background);
+			al_destroy_font(font);
+			al_destroy_event_queue(event_queue);
+			al_destroy_timer(timer);
+			al_destroy_display(display);
+		}
 		if (myIceberg.getLives() <= 0) {
 			al_destroy_bitmap(background);
 			al_destroy_font(font);
@@ -214,7 +232,14 @@ int runScroller(void)
 	Sprite player;
 	const int JUMPIT = 1600;
 	int jump = JUMPIT;
-	int remainingTime = 60;
+	int remainingTime = 90;
+	int points = 0;
+	bool one = false;
+	bool two = false;
+	bool three = false;
+	bool four = false;
+	bool five = false;
+
 
 
 
@@ -304,24 +329,68 @@ int runScroller(void)
 					done = true;
 				}
 			}
-			if (player.endLevel()) { // When hits end of level swaps to the next one, similar to the kirby files/alien ones using sprintf
-				level++;
-				char file[20];
-				player.DrawSprites(0, 0);
-				sprintf(file, "level%i.FMP", level);
-				MapLoad(file, 1);
-				player.setX(80);
-				player.setY(-10);
-				remainingTime = 60;
+			//if (player.endLevel()) { // When hits end of level swaps to the next one, similar to the kirby files/alien ones using sprintf
+			//	level++;
+			//	char file[20];
+			//	player.DrawSprites(0, 0);
+			//	sprintf(file, "level%i.FMP", level);
+			//	MapLoad(file, 1);
+			//	player.setX(80);
+			//	player.setY(-10);
+			//	remainingTime = 60;
+			//}
+			if (player.point1()) {
+				one = true;
+				std::cout << "one" << std::endl;
+				//std::cout << one << std::endl;
+				
+			}
+			if (player.point2()) {
+				two = true;
+
+				std::cout << "two" << std::endl;
+				//std::cout << two << std::endl;
+			}
+			if (player.point3()) {
+				three = true;
+				std::cout << "three" << std::endl;
+				//std::cout << three << std::endl;
+
+			}
+			if (player.point4()) {
+				four = true;
+				std::cout << "four" << std::endl;
+				//std::cout << four << std::endl;
+			}
+			if (player.point5()) {
+				five = true;
+
+				std::cout << "five" << std::endl;
+				//std::cout << five << std::endl;
 			}
 
 
 			// Ends game, Game over screen and timer dispaly
 			if (player.endGame()) {
-				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congrats!");
-				al_flip_display();
-				al_rest(10.0);
-				break;
+				//std::cout << one << std::endl;
+				//std::cout << two << std::endl;
+				//std::cout << three << std::endl;
+				//std::cout << four << std::endl;
+				//std::cout << five << std::endl;
+
+
+				if(one && two && three && four && five){
+					al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Congrats You Gathered All The IceCubes!");
+					al_flip_display();
+					al_rest(10.0);
+					break;
+				}
+				else {
+					al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Did Not Get All IceCubes Game Over!");
+					al_flip_display();
+					al_rest(10.0);
+					break;
+				}
 			}
 			render = true;
 
@@ -457,3 +526,73 @@ bool endLevelValue(int x, int y) // end level
 	else
 		return false;
 }
+bool points1(int x, int y) // Points
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 9)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+bool points2(int x, int y) // Points
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 10)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+bool points3(int x, int y) // Points
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 11)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+bool points4(int x, int y) // Points
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 12)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+bool points5(int x, int y) // Points
+{
+
+	BLKSTR* data;
+	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+
+	if (data->user1 == 13)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+

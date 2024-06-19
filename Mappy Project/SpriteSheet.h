@@ -11,6 +11,12 @@ class Sprite
 	friend int collided(int x, int y);
 	friend bool endValue(int x, int y);
 	friend bool endLevelValue(int x, int y);
+	friend bool points1(int x, int y);
+	friend bool points2(int x, int y);
+	friend bool points3(int x, int y);
+	friend bool points4(int x, int y);
+	friend bool points5(int x, int y);
+
 public:
 	Sprite();
 	~Sprite();
@@ -26,11 +32,17 @@ public:
 	int getHeight() {return frameHeight;}
 	bool endLevel();
 	bool endGame();
+	bool point1();
+	bool point2();
+	bool point3();
+	bool point4();
+	bool point5();
 	
 
 private:
 	float x;
 	float y;
+	int points;
 	int maxFrame;
 	int maxUp, maxRight, maxDown, maxLeft;
 	int curFrame;

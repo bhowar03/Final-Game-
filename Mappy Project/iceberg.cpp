@@ -24,6 +24,12 @@ Iceberg::Iceberg(int HEIGHT, int WIDTH)
 	images[2] = al_load_bitmap("iceberg2.png");
 	images[3] = al_load_bitmap("iceberg3.png");
 	images[4] = al_load_bitmap("iceberg4.png");
+
+	status[0] = al_load_bitmap("status0.png");
+	status[1] = al_load_bitmap("status1.png");
+	status[2] = al_load_bitmap("status2.png");
+	status[3] = al_load_bitmap("status3.png");
+	status[4] = al_load_bitmap("status4.png");
 	icebergIndex = 0;
 	x = 0;
 	y = 800;
@@ -36,4 +42,5 @@ void Iceberg::DrawIceberg()
 {
 	// Draws iceberg based on health remaining
 	al_draw_bitmap(images[icebergIndex], x, y - 50, 0);
+	al_draw_bitmap(status[icebergIndex], 550, 10, 0);
 }

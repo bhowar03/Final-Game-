@@ -27,5 +27,6 @@ private:
     int score;
     int icebergIndex;
     ALLEGRO_BITMAP* images[5];
+    ALLEGRO_BITMAP* status[5];
 };
 #endif

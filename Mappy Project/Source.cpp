@@ -111,7 +111,9 @@ int main(void)
 	while (!done)
 	{
 		// Score and Remaining Health
-		al_draw_textf(font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, "Health: %d   Score: %d", myIceberg.getLives(), myIceberg.getScore());
+		al_draw_textf(font, al_map_rgb(255, 255, 255), 560, 10, ALLEGRO_ALIGN_RIGHT, "Health");
+
+		al_draw_textf(font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, "Score: %d", myIceberg.getLives(), myIceberg.getScore());
 
 
 		ALLEGRO_EVENT ev;

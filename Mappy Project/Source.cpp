@@ -66,7 +66,7 @@ int main(void)
 	al_install_audio();
 
 	// Background/display/font
-	if (!al_reserve_samples(2)) {
+	if (!al_reserve_samples(3)) {
 		return -1;
 	}
 	sample = al_load_sample("penguins.mp3");
@@ -298,7 +298,7 @@ int runScroller(void)
 	if (MapLoad("level1.fmp", 1))
 		return -5;
 
-	if (!al_reserve_samples(2)) {
+	if (!al_reserve_samples(3)) {
 		return -1;
 	}
 	sample2 = al_load_sample("penguins.mp3");

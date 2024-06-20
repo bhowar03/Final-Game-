@@ -15,9 +15,12 @@ Snowball::Snowball() {
 	live = false;
 	snowball = al_load_bitmap("snowball.png");
 	sample = NULL;
+	sample2 = NULL;
 	// SOUND EFFECTS
 	sample = al_load_sample("pew.mp3");
-	if (!sample) {
+	sample2 = al_load_sample("death.mp3");
+
+	if (!sample && !sample2) {
 		exit(9);
 	}
 }
@@ -25,6 +28,8 @@ Snowball::Snowball() {
 Snowball::~Snowball() {
 	al_destroy_bitmap(snowball);
 	al_destroy_sample(sample);
+	al_destroy_sample(sample2);
+
 
 }
 
@@ -72,6 +77,7 @@ void Snowball::CollideSnowball(Penguin penguins[], int cSize, Iceberg& Ice)
 					y < (penguins[j].getY() + penguins[j].getBoundY()))
 				{
 					live = false;
+					al_play_sample(sample2, .5, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 					penguins[j].setLive(false);
 					// Updates score when hitting a penguin

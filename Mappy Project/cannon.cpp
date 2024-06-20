@@ -21,7 +21,8 @@ Cannon::Cannon(int HEIGHT, int WIDTH)
 }
 void Cannon::DrawCannon() {
 	al_draw_rotated_bitmap(cannon, al_get_bitmap_width(cannon) / 2, al_get_bitmap_height(cannon) / 2, x, y, ALLEGRO_PI * angle / 180.0, 0);
-	al_draw_bitmap(captain, x + 50, y, 0);
+	// Scaled
+	al_draw_scaled_bitmap(captain, 0, 0, al_get_bitmap_width(captain), al_get_bitmap_height(captain), x+50, y, al_get_bitmap_width(captain) * 1.2, al_get_bitmap_height(captain) * 1.2, 0);
 }
 
 void Cannon::MoveLeft()

@@ -21,5 +21,7 @@ private:
 	int speed;
 	ALLEGRO_BITMAP* snowball;
 	ALLEGRO_SAMPLE* sample;
+	ALLEGRO_SAMPLE* sample2;
+
 };
 

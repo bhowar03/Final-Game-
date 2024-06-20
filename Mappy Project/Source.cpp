@@ -19,6 +19,7 @@ using namespace std;
 int collided(int x, int y);  //Tile Collision
 bool endValue(int x, int y); //End Block with the User Value = 5
 bool endLevelvalue(int x, int y); // value 7
+// Bools for each icecube
 bool points1(int x, int y);
 bool points2(int x, int y);
 bool points3(int x, int y);
@@ -26,7 +27,7 @@ bool points4(int x, int y);
 bool points5(int x, int y);
 
 
-
+// Part 2 of game
 int runScroller(void);
 
 int main(void)
@@ -53,6 +54,8 @@ int main(void)
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_FONT* font = NULL;
 	ALLEGRO_BITMAP* background = NULL;
+	ALLEGRO_SAMPLE* sample = NULL;
+
 
 	//Allegro Initilization
 	al_install_keyboard();
@@ -63,6 +66,11 @@ int main(void)
 	al_install_audio();
 
 	// Background/display/font
+	if (!al_reserve_samples(2)) {
+		return -1;
+	}
+	sample = al_load_sample("penguins.mp3");
+
 	display = al_create_display(WIDTH, HEIGHT);
 	background = al_load_bitmap("background.png");
 	font = al_load_ttf_font("arial.ttf", 32, 0);
@@ -107,6 +115,7 @@ int main(void)
 	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "Eliminate 25 Penguins Before Out of Life");
 	al_flip_display();
 	al_rest(5.0);
+	al_play_sample(sample, 1, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 	while (!done)
 	{
@@ -208,13 +217,17 @@ int main(void)
 			al_destroy_font(font);
 			al_destroy_event_queue(event_queue);
 			al_destroy_timer(timer);
+			al_destroy_sample(sample);
+
 			al_destroy_display(display);
 		}
+		// Start second part of game if iceberg runs out of lives
 		if (myIceberg.getLives() <= 0) {
 			al_destroy_bitmap(background);
 			al_destroy_font(font);
 			al_destroy_event_queue(event_queue);
 			al_destroy_timer(timer);
+			al_destroy_sample(sample);
 			al_destroy_display(display);
 			runScroller();
 		}
@@ -255,7 +268,7 @@ int runScroller(void)
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer;
 	ALLEGRO_TIMER* timerFinal; // Timer
-
+	ALLEGRO_SAMPLE* sample2 = NULL;
 	ALLEGRO_FONT* font = NULL;
 
 	//program init
@@ -274,6 +287,8 @@ int runScroller(void)
 	al_init_primitives_addon();
 	al_init_font_addon();
 	al_init_ttf_addon();
+	al_init_acodec_addon();
+	al_install_audio();
 	font = al_load_ttf_font("aovel.ttf", 32, 0);
 
 	player.InitSprites(WIDTH, HEIGHT);
@@ -282,6 +297,11 @@ int runScroller(void)
 	int yOff = 0;
 	if (MapLoad("level1.fmp", 1))
 		return -5;
+
+	if (!al_reserve_samples(2)) {
+		return -1;
+	}
+	sample2 = al_load_sample("penguins.mp3");
 
 	event_queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / 60);
@@ -305,9 +325,15 @@ int runScroller(void)
 	int level = 1;
 
 	// Intro
-	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "Collect all the Icecubes (From bottom or Top) Arrow Keys to move");
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 40, ALLEGRO_ALIGN_CENTER, "REDEMPTION ROUND");
+
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "You have 80 seconds to collect all the ice cubes(from the top)");
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "and complete the course. Use the arrow keys to move");
+
 	al_flip_display();
-	al_rest(10.0);
+	al_rest(5.0);
+	al_play_sample(sample2, 1, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+
 	while (!done)
 	{
 		ALLEGRO_EVENT ev;
@@ -341,16 +367,7 @@ int runScroller(void)
 					done = true;
 				}
 			}
-			//if (player.endLevel()) { // When hits end of level swaps to the next one, similar to the kirby files/alien ones using sprintf
-			//	level++;
-			//	char file[20];
-			//	player.DrawSprites(0, 0);
-			//	sprintf(file, "level%i.FMP", level);
-			//	MapLoad(file, 1);
-			//	player.setX(80);
-			//	player.setY(-10);
-			//	remainingTime = 60;
-			//}
+			
 			if (player.point1()) {
 				one = true;
 				std::cout << "one" << std::endl;
@@ -500,6 +517,8 @@ int runScroller(void)
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
 	al_destroy_timer(timerFinal);
+	al_destroy_sample(sample2);
+
 	return 0;
 }
 
@@ -509,7 +528,7 @@ int collided(int x, int y)
 {
 	BLKSTR* blockdata;
 	blockdata = MapGetBlock(x / mapblockwidth, y / mapblockheight);
-	return blockdata->tl;
+	return blockdata->tl || blockdata->tr || blockdata->bl || blockdata->br;
 }
 
 bool endValue(int x, int y) // end game
@@ -544,7 +563,7 @@ bool points1(int x, int y) // Points
 	BLKSTR* data;
 	data = MapGetBlock(x / mapblockwidth, y / mapblockheight);
 
-	if (data->user1 == 9)
+	if (data->user1 == 9 && data->tl && data->tr && data->bl && data->br)
 	{
 		return true;
 	}

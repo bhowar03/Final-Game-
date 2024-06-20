@@ -20,5 +20,6 @@ private:
 	float angle;
 	int speed;
 	ALLEGRO_BITMAP* snowball;
+	ALLEGRO_SAMPLE* sample;
 };
 

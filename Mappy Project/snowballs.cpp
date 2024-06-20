@@ -6,8 +6,7 @@
 #include "iceberg.h"
 #include "cannon.h"
 #include <cmath>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
+
 
 #define M_PI 3.1415926
 
@@ -15,10 +14,18 @@ Snowball::Snowball() {
 	speed = 10;
 	live = false;
 	snowball = al_load_bitmap("snowball.png");
+	sample = NULL;
+	// SOUND EFFECTS
+	sample = al_load_sample("pew.mp3");
+	if (!sample) {
+		exit(9);
+	}
 }
 // Destroys bitmap
 Snowball::~Snowball() {
 	al_destroy_bitmap(snowball);
+	al_destroy_sample(sample);
+
 }
 
 // Draws snowball like arrow
@@ -30,11 +37,12 @@ void Snowball::DrawSnowball() {
 void Snowball::FireSnowball(Cannon& cannon) {
 	if (!live)
 	{
+
 		x = cannon.getX();
 		y = cannon.getY();
 		angle = ((cannon.getAngle() + 64.0) / 0.711) * ((2 * M_PI) / 360.0);
-
 		live = true;
+		al_play_sample(sample, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 }
 // Updates the snowball to move at an angle

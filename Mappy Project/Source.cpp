@@ -1,4 +1,4 @@
-// Brandon Howar Project 4
+// Brandon Howar Project 5
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
@@ -121,8 +121,8 @@ int main(void)
 	{
 		// Score and Remaining Health
 		al_draw_textf(font, al_map_rgb(255, 255, 255), 560, 10, ALLEGRO_ALIGN_RIGHT, "Health");
+		al_draw_textf(font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, "Score: %d", myIceberg.getScore());
 
-		al_draw_textf(font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, "Score: %d", myIceberg.getLives(), myIceberg.getScore());
 
 
 		ALLEGRO_EVENT ev;
@@ -252,7 +252,7 @@ int runScroller(void)
 	Sprite player;
 	const int JUMPIT = 1600;
 	int jump = JUMPIT;
-	int remainingTime = 90;
+	int remainingTime = 95;
 	int points = 0;
 	bool one = false;
 	bool two = false;
@@ -327,7 +327,7 @@ int runScroller(void)
 	// Intro
 	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 40, ALLEGRO_ALIGN_CENTER, "REDEMPTION ROUND");
 
-	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "You have 80 seconds to collect all the ice cubes(from the top)");
+	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "You have 90 seconds to collect all the ice cubes(from the top)");
 	al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 40, ALLEGRO_ALIGN_CENTER, "and complete the course. Use the arrow keys to move");
 
 	al_flip_display();
